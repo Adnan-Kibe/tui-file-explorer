@@ -92,8 +92,15 @@ impl TUI {
             .wrap(ratatui::widgets::Wrap { trim: false })
             .scroll((app.preview_scroll, 0));
 
-        let footer =
-            Paragraph::new("Press Esc/q to quit").block(Block::default().borders(Borders::ALL));
+        let footer = Paragraph::new(
+            " W/S: Navigate  |  Enter: Open folder / Preview file  |  Backspace: Go back | Up/Down: Scroll preview  |  O: Open externally  |  Q/Esc: Quit"
+        )
+        .block(
+            Block::default()
+                .title("Commands")
+                .borders(Borders::ALL)
+                .border_style(Style::default().fg(Color::Cyan)),
+        );
 
         frame.render_widget(header, areas[0]);
         frame.render_widget(path, areas[1]);
