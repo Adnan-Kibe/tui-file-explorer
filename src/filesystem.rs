@@ -111,4 +111,24 @@ impl App {
     pub fn scroll_preview_up(&mut self){
         self.preview_scroll = self.preview_scroll.saturating_sub(1)
     }
+
+    pub fn open_external(&self) -> io::Result<()> {
+        let Some(index) = self.list_state.selected() else {
+            return Ok(());
+        };
+
+        let Some(entry) = self.files.get(index) else {
+            return Ok(());
+        };
+
+        if entry.is_dir {
+            return Ok(());
+        }
+
+        let path = self.current_dir.join(&entry.name);
+
+        open::that(path).map_err(|err| io::Error::other(err.to_string()))?;
+
+        Ok(())
+    }
 }

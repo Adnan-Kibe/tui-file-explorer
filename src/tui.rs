@@ -30,6 +30,7 @@ impl TUI {
                     KeyCode::Backspace => app.go_back()?,
                     KeyCode::Down => app.scroll_preview_down(),
                     KeyCode::Up => app.scroll_preview_up(),
+                    KeyCode::Char('o') => app.open_external()?,
                     _ => {}
                 }
             }
