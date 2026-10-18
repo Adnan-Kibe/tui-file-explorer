@@ -24,10 +24,12 @@ impl TUI {
 
                 match key.code {
                     KeyCode::Char('q') | KeyCode::Esc => break Ok(()),
-                    KeyCode::Up | KeyCode::Char('w') => app.move_selection(-1),
-                    KeyCode::Down | KeyCode::Char('s') => app.move_selection(1),
+                    KeyCode::Char('w') => app.move_selection(-1),
+                    KeyCode::Char('s') => app.move_selection(1),
                     KeyCode::Enter => app.open_selected()?,
                     KeyCode::Backspace => app.go_back()?,
+                    KeyCode::Down => app.scroll_preview_down(),
+                    KeyCode::Up => app.scroll_preview_up(),
                     _ => {}
                 }
             }
@@ -86,7 +88,8 @@ impl TUI {
 
         let preview = Paragraph::new(app.preview.as_str())
             .block(Block::default().title("Preview").borders(Borders::ALL))
-            .wrap(ratatui::widgets::Wrap { trim: false });
+            .wrap(ratatui::widgets::Wrap { trim: false })
+            .scroll((app.preview_scroll, 0));
 
         let footer =
             Paragraph::new("Press Esc/q to quit").block(Block::default().borders(Borders::ALL));

@@ -12,6 +12,7 @@ pub struct App {
     pub files: Vec<FileEntry>,
     pub list_state: ListState,
     pub preview: String,
+    pub preview_scroll: u16,
 }
 
 impl App {
@@ -23,6 +24,7 @@ impl App {
             files: Vec::new(),
             list_state: ListState::default(),
             preview: String::from("Select a file to preview"),
+            preview_scroll: 0
         };
 
         app.load_directory(current_dir)?;
@@ -100,5 +102,13 @@ impl App {
         };
 
         self.list_state.select(Some(next));
+    }
+
+    pub fn scroll_preview_down(&mut self){
+        self.preview_scroll = self.preview_scroll.saturating_add(1)
+    }
+
+    pub fn scroll_preview_up(&mut self){
+        self.preview_scroll = self.preview_scroll.saturating_sub(1)
     }
 }
